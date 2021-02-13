@@ -44,3 +44,4 @@ Make sure your git repo has the following setup _and nothing else_:
 	- checkpoint1b.ipynb
 
 When you are finished, submit [here](https://docs.google.com/forms/d/e/1FAIpQLSc3sH0Rr8c5eoVNRJAHFYRuU5CG5iryL4jaZMQm1QBn7T0uPg/viewform?usp=sf_link)! This form will also be where you sign up for a project :)
+# mdst_radi
