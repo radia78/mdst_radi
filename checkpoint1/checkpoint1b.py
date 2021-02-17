@@ -18,19 +18,75 @@ This should load the data, perform preprocessing, and save the output to the dat
 
 """
 
+import pandas as pd
+
 def remove_percents(df, col):
+    
+    k = df[col]
+    for i,x in enumerate(k):
+        
+        if isinstance(x,str) == True:
+            
+            k[i] = x.replace('%','')
+    
+    df[col] = k.astype('float64')    
+    
     return df
 
 def fill_zero_iron(df):
+    
+    df['Iron (% DV)'].fillna(0)
+    df['Iron (% DV)'] = df['Iron (% DV)'].fillna(0)
+    
     return df
     
 def fix_caffeine(df):
+    
+    k = df['Caffeine (mg)']
+    n = df['Caffeine (mg)']
+    for i,x in enumerate(k):
+        if x == 'Varies' or x == 'varies' or pd.isna(x) == True:
+            k = k.drop(index = i)
+    
+    k = k.astype('float64')
+    k_mean = round(k.mean(),1)
+    for j,y in enumerate(n):
+        if y == 'Varies' or y == 'varies' or pd.isna(y) == True:
+                n[j] = k_mean
+    
+    df['Caffeine (mg)'] = n.astype('float64')
+    
     return df
 
 def standardize_names(df):
+    
+    col_name = {}
+   
+    for col in df.columns:
+        
+        string = col.lower()
+        for j,x in enumerate(string):
+            
+            if x == '(':
+                
+                string = string[0:j - 1]
+        
+        col_name[col] = string
+    
+    df = df.rename(columns = col_name)
+            
+    
     return df
 
 def fix_strings(df, col):
+    
+    for i in range(0,len(df)):
+        
+        for j,x in enumerate(df[col][i]):
+            
+            if x.isalpha() == False and x != ' ':
+                df[col][i] = df[col][i].replace(x, '')
+    
     return df
 
 
@@ -66,7 +122,7 @@ def main():
     
     # now that the data is all clean, save your output to the `data` folder as 'starbucks_clean.csv'
     # you will use this file in checkpoint 2
-    
+    df.to_csv(r'../data/starbucks_clean.csv',index = False)
     
 
 if __name__ == "__main__":
